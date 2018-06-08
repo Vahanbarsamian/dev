@@ -1,0 +1,29 @@
+li.selected {
+	background-color: forestgreen;
+	border-radius: 5px;
+	
+}
+
+div{
+	width: 800px;
+
+}
+
+li {
+	display: inline-block;
+	margin: 1em;
+	padding: 0.5em;
+	border-radius: 5px;
+}
+
+li:hover {
+	background-color: silver;
+}
+
+img {
+	
+}
+
+em {
+	color:red;
+}

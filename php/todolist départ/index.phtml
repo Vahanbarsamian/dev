@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>PHP</title>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans">
+    <link rel="stylesheet" href="css/todolist.css">
+</head>
+<body>
+<main>
+        <h1>Gestionnaire de tâches :-)</h1>
+
+			<!-- Formulaire listant toutes les tâches existantes avec possibilité de suppression. -->
+			<form class="standard-form" action="remove.php" method="POST">
+				<ul class="task-list">
+                    <?php $fichier_csv = fopen('tasks.csv', 'a+'); ?>
+                    <?php $tab = file('tasks.csv'); ?>
+                        <?php foreach ($tab as  $key=>$value){ ?>
+                            
+						<?php echo '<li>' ?>
+                        <?php $value = explode(',', $value); ?>
+                        <?php $dates = date_create();$madate = date_create($value[2]); ?>
+							<input id="<?= $key ?>" type="checkbox" name="<?= $key ?>" value="<?= $key ?>">
+							<label for="task-" class=""><?= $value[0]?>
+                                 <?php $dates<$madate ? echo'<strong>- en retard</strong>':echo"";?> 
+
+							</label>
+							<p><?php echo $value[1];?></p>
+						<?php echo '</li>' ?>
+					<li>
+                    <?php } ?>
+						<input type="submit" value="Supprimer" title="Supprimer les tâches sélectionnées">
+					</li>
+				</ul>
+			</form>
+			<hr>
+
+        <section>
+            <!-- Formulaire d'ajout de tâche -->
+            <form class="standard-form label-left" action="add.php" method="POST">
+                <fieldset>
+                    <legend>Informations sur la tâche</legend>
+                    <ul>
+                        <li>
+                            <label for="title">Titre :</label>
+                            <input id="title" name="title" type="text">
+                        </li>
+                        <li>
+                            <label for="description">Tâche :</label>
+                            <textarea id="description" name="description" rows="5"></textarea>
+                        </li>
+                        <li>
+                            <label for="day">Date de fin :</label>
+
+                            <select id="day" name="day">
+                            <?php for ($i=1;$i<=31;$i++):?>
+                               <option value="<?= $i ?>"><?= $i ?></option> 
+                                <?php endfor; ?>
+                            </select>
+
+                            <span>/</span>
+                            <select name="month">
+                                <option value="1">Janvier</option>
+                                <option value="2">Février</option>
+                                <option value="3">Mars</option>
+                                <option value="4">Avril</option>
+                                <option value="5">Mai</option>
+                                <option value="6">Juin</option>
+                                <option value="7">Juillet</option>
+                                <option value="8">Août</option>
+                                <option value="9">Septembre</option>
+                                <option value="10">Octobre</option>
+                                <option value="11">Novembre</option>
+                                <option value="12">Décembre</option>
+                            </select>
+                            <span>/</span>
+                            <select name="year">
+                            <?php for ($j=2018 ; $j<= 2023;$j++): ?>
+                              <option value="<?= $j ?>"><?= $j ?></option>
+                             <?php endfor; ?>
+                            </select>
+                        </li>
+                        <li>
+                            <label>Priorité :</label>
+                            <input id="priority-low" name="priority" type="radio" value="priority-low">
+                            <label for="priority-low">Basse</label>
+                            <input id="priority-normal" name="priority" type="radio" value="priority-normal">
+                            <label for="priority-normal">Normale</label>
+                            <input id="priority-high" name="priority" type="radio" value="priority-high">
+                            <label for="priority-high">Haute</label>
+                        </li>
+                        <li>
+                            <input type="submit" value="Ajouter" title="Ajouter une nouvelle tâche">
+                        </li>
+                    </ul>
+                </fieldset>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

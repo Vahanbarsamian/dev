@@ -1,0 +1,29 @@
+.maDiv {
+	width: 400px;
+	height: 300px;
+	background-color: royalblue;
+
+}
+ .good{
+ 	width: 400px;
+	height: 300px;
+	background-color: limegreen;
+}
+
+.important{
+	width: 400px;
+	height: 300px;
+	background-color: firebrick;
+}
+
+.out{
+	width: 400px;
+	height: 300px;
+	background-color: royalblue ;
+}
+
+.cacher {
+
+	display: none;
+
+}
