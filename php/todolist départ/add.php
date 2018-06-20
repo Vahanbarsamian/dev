@@ -12,19 +12,18 @@ $chemin_csv = 'tasks.csv';
 
 $donnees = $_POST;
 
-if (isset($donnees['title']) && !empty($donnees['title']) &&
-	isset($donnees['description']) && !empty($donnees['description']) &&
-	isset($donnees['day']) && !empty($donnees['day']) && 
-	isset($donnees['month']) && !empty($donnees['month']) && 
-	isset($donnees['year']) && !empty($donnees['year'])
-	){
-	
+
+if (isset($donnees['title']) && !empty($donnees['title']))
+{
+	if(isset($donnees['description']) || !empty($donnees['description'])){
+		$donnees['description']='Tâche sans description';
+	}
 // Tout est rempli on ajoute dans csv
 
 // je format ma date
 	$date  = $donnees['year']."-".$donnees['month']."-".$donnees['day'];
 	
-	
+	var_dump($donnees);
 	unset($donnees['day']); unset($donnees['month']); unset($donnees['year']);
 	$donnees['date']=$date;
 // On ouvre le fichier csv
@@ -37,18 +36,7 @@ if (isset($donnees['title']) && !empty($donnees['title']) &&
 // On ferme le fichier csv
 	fclose($fichier_csv);
 
-
-
-
-
-
-	
-} else {
-
-// Tout n'est pas rempli 	
-	echo $message ="Un des champs est vide veuillez completer";
-
-}
+} 
 
 header('Location: index.phtml');
 exit();

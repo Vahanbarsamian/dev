@@ -1,0 +1,234 @@
+index.html
+	- lier les fichiers JS dont jQuery et les fichiers CSS
+	
+    -Boutons ajouter et supprimer
+    -Clic sur ajouter = afficher formulaire ajout contact
+    -Clic sur supprimer = supprime tous les contacts
+    
+    - Formulaire : 4 champs dont dropdownlist et un bouton enregistrer
+    	- Clic sur enregistrer = formulaire disparait et contact apparait dans la liste
+    
+    - Liste de contacts : clic sur un contact = affiche les détails et un lien éditer contact
+    	- Clic sur éditer contact = renvoi sur le formulaire avec les données préchargées
+
+
+/******************************************************************/
+/*                       ORDRE DE DEV                             */
+/******************************************************************/
+
+1/ Ajouter l'événement sur btn + puis fonction d'affichage du formulaire onClickAddContact
+2/ Ajouter l'évent sur le btn ENREGISTRER
+	Fonction onClickSaveContact
+    Fonction createContact
+    Fonction loadDataFromDomStorage
+    Fonction saveDataToDomStorage
+    Fonction refreshAddressBook
+3/ Ajouter event sur btn RESET et la fonction onClickClearAddressBook
+4/ Ajouter event sur le lien de contact + fonction onClickShowContactDetails
+5/ Edition du contact onClickEditContact
+
+
+/******************************************************************/
+/*                     FIN ORDRE DE DEV                           */
+/******************************************************************/
+
+Fichiers JavaScript
+	adresse-book.js
+    	Créer contact (createContact) :
+        	Cette fonction attend 4 paramètres : title (civilité), firstName, lastName, phone
+            Crée une nouvelle variable objet contenant 4 attributs (même noms que les paramètres)
+            Retourner l'objet créé
+            
+        Rafraîchir l'affichage de la liste (refreshAddressBook) :
+        	On récupère la liste de contacts
+            Vide la liste existante
+            On fait une boucle qui affiche la liste de contacts (append)
+        
+        
+    event.js
+    	Ajouter (onClickAddContact) :
+        	Le formulaire apparait en mode ajout et les champs sont vides
+            
+        Vider la liste (onClickClearAddressBook) :
+        	Supprime tous les contacts (on recrée une liste vide)
+            Actualise l'affichage de la liste (appel de la fonction refreshAddressBook)
+            
+        Edition d'un contact (onClickEditContact) :
+        	On récupère l'index du contact
+            On récupère les infos de ce contact (grâce à l'index) et on les affiche dans le form
+            Le formulaire passe en mode edition
+            
+        Enregistrer contact (onClickSaveContact) :
+        	On récupère les infos du formulaire sous forme d'objet (createContact)
+            On récupère le tableau du localStorage et on le stocke dans une variable (adressBook)
+            Si mode == add
+            	On ajoute à adressBook le tableau contact
+            Sinon
+            	Modifie adressBook à l'index du contact selectionné
+            On réenregistre le tableau adressBook actualisé dans le localStorage
+            On cache le formulaire
+            On rafraichi la liste (appel de la fonction refreshAddressBook)
+            
+        Afficher les détails du contact (onClickShowContactDetails) :
+        	On récupère l'index du contact
+            On récupère le tableau adressBook depuis le localStorage
+            On récupère les infos du contact grâce à l'index
+            On affiche
+            
+            
+    main.js
+    	Au chargement de la page (et une fois seulement que la page est chargée):
+        	- ajouter gestionnaire d'événement sur les 4 éléments :
+            	1- Ajouter contact (#add-contact,onClickAddContact)
+                2- Vider la liste (#clear-adress-book,onClickClearAddressBook)
+                3- Enregistrer UN contact (#save-contact,onClickSaveContact)
+                4- Editer un contact (#contact-details a,onClickEditContact)
+            - gestionnaire d'événement sur le lien du contact afficher le contact (onClickShowContactDetails)
+            - on affiche la liste
+            
+            
+    utilities.js
+    https://developer.mozilla.org/fr/docs/Web/API/Window/localStorage
+    
+    	Charger les données (loadDataFromDomStorage) :
+        	On récupère ce qu'il y a dans le localStorage et on le stocke dans une variable (getItem)
+            Transformer le JSON (JSON.parse) et on le retourne
+	
+    	
+        Sauvegarder les données (saveDataToDomStorage) :
+        	Cette fonction attend en paramètre le tableau de données
+            Converti en JSON (JSON.stringify) -> C'est ça qu'on enregistre dans le localStorage
+            
+            https://www.xul.fr/ajax-format-json.php
+        	On stocke les données dans le localStorage (setItem "adressBook")
+    
+    
+    
+    Pensez améliorations :
+    
+    1/ Que se passe-t-il s'il n'y a pas de données dans le localStorage ?
+    2/ Ajout/Edit pensez :
+    	- champs vides (on les remplace ou -si vous avez le temps parce que vous êtes trop des BG- on bloque l'enregistrement et on affiche un message disant que le champ est vide)
+        - numéro de téléphone invalide (on vérifie que c'est bien un numéro de téléphone à 10 chiffres)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    a
+{
+    color: #00968B;
+    text-decoration: none;
+    transition: color 0.25s;
+}
+a:hover
+{
+    color: #FF6F69;
+}
+
+body
+{
+    /* structure */
+    margin: 0 auto;
+    padding: 1em;
+    min-height: 100%;
+    width: 80%;
+
+    /* presentation */
+    font-family: 'Open Sans', sans-serif;
+}
+
+html
+{
+    /* structure */
+    height: 100%;
+
+    /* presentation */
+    background-color: #F3EDD3;
+}
+
+h1
+{
+    color: #113F59;
+}
+
+hr
+{
+    border-color: #FAE8CC;
+}
+
+.hide
+{
+    display: none;
+}
+
+.menu
+{
+    /* structure */
+    padding-left: 0;
+
+    /* presentation */
+    list-style-type: none;
+}
+.menu li
+{
+    display: inline-block;
+    padding: 0.5em 0.25em;
+}
+
+.standard-form label
+{
+    /* structure */
+    display: inline-block;
+    width: 8em;
+
+    /* presentation */
+    color: #00968B;
+    text-align: right;
+}
+.standard-form ul
+{
+    /* structure */
+    padding-left: 0;
+
+    /* presentation */
+    list-style-type: none;
+}
+.standard-form ul li
+{
+    margin: 1em 0;
+}

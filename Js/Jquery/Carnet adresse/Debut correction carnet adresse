@@ -1,0 +1,84 @@
+/******************************************************************/
+/*                           main.js                              */
+/******************************************************************/
+<script>
+	$(document).ready(function(){
+    	$("#add-contact").on("click", onClickAddContact);
+        
+    	$("#save-contact").on("click", onClickSaveContact);
+        
+    });
+</script>
+
+/******************************************************************/
+/*                          event.js                              */
+/******************************************************************/
+
+<script>
+	
+    function onClickAddContact(){
+    	 $('#contact-form') -> vider les champs du formulaire
+    	 $('#contact-form').data("mode","add").fadeIn('fast');
+    }
+    
+    function onClickSaveContact(){
+    	var contact = createContact(
+        	$("#title").val(),
+            $("#firstName").val(),
+            $("#lastName").val(),
+            $("#phone").val()
+        );
+        
+        var liste = loadDataFromDomStorage();
+        if($("#contact-form").data("mode") == "add"){
+        	liste.push(contact);
+        } else {
+        	//je remplace à l'index
+        }
+        saveDataToDomStorage(liste);
+        $('#contact-form').fadeOut('slow');
+        //cacher le détail du contact
+        refreshAddressBook();
+    }
+    
+</script>
+
+/******************************************************************/
+/*                       adress-book.js                           */
+/******************************************************************/
+
+<script>
+	
+    function createContact(civilite, prenom, nom, tel){
+    	var contact = new Object();
+        contact.title = civilite;
+        contact.lastName = nom;
+        contact.firstName = prenom;
+        contact.phone = tel;
+        return contact;
+    }
+
+</script>
+
+/******************************************************************/
+/*                        utilities.js                            */
+/******************************************************************/
+
+<script>
+
+	function loadDataFromDomStorage(){
+    	var liste = localStorage.getItem("adressBook");
+        if (liste == null){
+        	liste = [];
+        } else {
+        	liste = JSON.parse(liste);
+        }
+        return liste;
+    }
+    
+    function saveDataToDomStorage(tab){
+    	var liste = JSON.stringify(tab);
+        localStorage.setItem("adressBook",liste);
+    }
+
+</script>

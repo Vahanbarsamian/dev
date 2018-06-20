@@ -15,22 +15,30 @@
 			<!-- Formulaire listant toutes les tâches existantes avec possibilité de suppression. -->
 			<form class="standard-form" action="remove.php" method="POST">
 				<ul class="task-list">
+
                     <?php $fichier_csv = fopen('tasks.csv', 'a+'); ?>
                     <?php $tab = file('tasks.csv'); ?>
+                        <?php if (count($tab) != 0){?>
                         <?php foreach ($tab as  $key=>$value){ ?>
                             
 						<?php echo '<li>' ?>
                         <?php $value = explode(',', $value); ?>
-                        <?php $dates = date_create();$madate = date_create($value[2]); ?>
+                        <?php $dates = date_create();
+                        $madate = date_create($value[3]);?>
 							<input id="<?= $key ?>" type="checkbox" name="<?= $key ?>" value="<?= $key ?>">
-							<label for="task-" class=""><?= $value[0]?>
-                                 <?php $dates<$madate ? echo'<strong>- en retard</strong>':echo"";?> 
+							<label for="task-" class="<?php echo $value[2]?>">
+                                <?php echo "$value[0]" ?>
+                                 <?php if($dates > $madate){echo '<strong>- en retard</strong>';}else {echo "";} ?> 
 
 							</label>
-							<p><?php echo $value[1];?></p>
+                            
+							<p> <?php echo $value[1];?></p>
+
 						<?php echo '</li>' ?>
+                      
 					<li>
-                    <?php } ?>
+                    <?php }; ?>
+                     <?php }; ?>
 						<input type="submit" value="Supprimer" title="Supprimer les tâches sélectionnées">
 					</li>
 				</ul>
@@ -86,7 +94,7 @@
                             <label>Priorité :</label>
                             <input id="priority-low" name="priority" type="radio" value="priority-low">
                             <label for="priority-low">Basse</label>
-                            <input id="priority-normal" name="priority" type="radio" value="priority-normal">
+                            <input id="priority-normal" name="priority" type="radio" value="priority-normal" checked="checked">
                             <label for="priority-normal">Normale</label>
                             <input id="priority-high" name="priority" type="radio" value="priority-high">
                             <label for="priority-high">Haute</label>

@@ -1,0 +1,37 @@
+
+// Toutes les commandes
+
+
+SELECT
+  `orderNumber`,`orderDate`,`shippedDate`,`status`
+FROM
+  `orders`
+ORDER BY
+`orderDate`
+
+
+// Client du n° de commande
+SELECT
+ `customerName`,`contactFirstName`,`contactLastName`,`addressLine1`,`addressLine2`,`postalCode`,`city`
+FROM
+  `customers`
+  INNER JOIN orders ON customers.customerNumber = orders.customerNumber
+WHERE
+orders.orderNumber = 10100
+
+//details commandes
+SELECT
+products.productName,priceEach,quantityOrdered,(quantityOrdered*priceEach) as tot
+FROM
+  `orderdetails`
+  INNER JOIN products ON orderdetails.productCode = products.productCode
+WHERE orderNumber =10100
+ORDER BY orderLineNumber
+
+//prix total ht
+
+SELECT
+SUM(priceEach * quantityOrdered)as prixtot
+FROM
+  `orderdetails`
+  where orderNumber=10100
